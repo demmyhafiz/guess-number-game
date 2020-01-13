@@ -43,17 +43,50 @@
   </div>
 
   <script>
+    // calculate/generate random number between 1 and 100
     let randomNumber = Math.floor(Math.random() * 100) + 1;
 
+    // each of this used to store the result of the input
     const guesses = document.querySelector('.guesses');
     const lastResult = document.querySelector('.lastResult');
     const lowOrHi = document.querySelector('.lowOrHi');
 
+    // take the text input field and submit button
     const guessSubmit = document.querySelector('.guessSubmit');
     const guessField = document.querySelector('.guessField');
 
-    let guessCount = 1;
+    let guessCount = 1; // keep track of how many guesses the player has
     let resetButton;
+
+    function checkGuess() {
+      let userGuess = Number(guessField.value); // take the result/value from input field
+      if (guessCount === 1) { // if it's the first go/not
+        guesses.textContent = 'Previous guesses: ';
+      }
+      guesses.textContent += userGuess + ' ';
+
+      if (userGuess === randomNumber) { // of the result/value from input filed is SAME as the random number generated
+        lastResult.textContent = 'Congartulations! You got it right!';
+        lastResult.style.backgroundColor = 'green';
+        lowOrHi.textContent = ''; // clear the low or hi result
+        setGameOver(); // the game is end
+      } else if (guessCount === 10) {
+          lastResult.textContent = '!!GAME OVER!!';
+          setGameOver();
+        } else { // if two above are FALSE
+            lastResult.textContent = 'Wrong!'; // if the result/value IS NOT RIGHT / NOT SAME
+            lastResult.style.backgroundColor = 'red';
+            if (userGuess < randomNumber) { // if it is lower
+              lowOrHi.textContent = 'Last guess was too low!';
+            } else if (userGuess > randomNumber) { // if it higher
+              lowOrHi.textContent = 'Last guess was too high!';
+            }
+        }
+
+        guessCount++; // increment by 1 (so 1+1=2, till 10)
+        guessField.value = ''; // clear the input and result field
+        guessField.focus();
+    }
   </script>
 </body>
 
